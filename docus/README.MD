@@ -1,6 +1,1 @@
 Aquí guardaremos la información relativa a la generación de documentos.
-<<<<<<< HEAD
-Nueva linea.
-=======
-prueba merge
->>>>>>> d9f6b8f941f872a4fac61898d9bd71068f1ef773
