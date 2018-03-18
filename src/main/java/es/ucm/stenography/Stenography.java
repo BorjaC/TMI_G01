@@ -43,21 +43,21 @@ public class Stenography {
       String component) {
     int width = image.width();
     int bit = character;
-    for (int j = 0; j < 8; j += 3) {
-      int bitRed = bit & Conts.MASK;
+    for (int j = 0; j < 8; j++) {
+      int bitFinal = bit & Conts.MASK;
       if (x > width) {
         x = 0;
         y++;
       }
       switch (component) {
         case RED:
-          image.hideRed(x, y, bitRed);
+          image.hideRed(x, y, bitFinal);
           break;
         case GREEN:
-          image.hideGreen(x, y, bitRed);
+          image.hideGreen(x, y, bitFinal);
           break;
         case BLUE:
-          image.hideBlue(x, y, bitRed);
+          image.hideBlue(x, y, bitFinal);
           break;
         default:
           break;
@@ -141,7 +141,7 @@ public class Stenography {
     // int bit = 0;
     String bits = "";
     // 8 digits form a character
-    for (int j = 0; j < 8; j += 3) {
+    for (int j = 0; j < 8; j++) {
       if (x > width) {
         x = 0;
         y++;
@@ -161,9 +161,7 @@ public class Stenography {
         default:
           break;
       }
-      bits += pixel.extractRed();
     }
-
     String ret = new String();
     for (int i = bits.length() - 1; i >= 0; i--) {
       ret = ret + bits.charAt(i);
