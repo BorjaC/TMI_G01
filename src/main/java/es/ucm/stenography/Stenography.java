@@ -1,13 +1,17 @@
 package es.ucm.stenography;
 
+import es.ucm.stenography.exception.IncorrectSizeException;
+import es.ucm.stenography.model.Coordinate;
 import es.ucm.stenography.model.ImageRgb;
 import es.ucm.stenography.model.PixelRgb;
 
+import java.util.List;
+
 public class Stenography {
 
-  private static final String BLUE = "BLUE";
-  private static final String GREEN = "GREEN";
-  private static final String RED = "RED";
+  private final String BLUE = "BLUE";
+  private final String GREEN = "GREEN";
+  private final String RED = "RED";
 
   /**
    * Embed secret information/TEXT into a "cover image"
@@ -17,7 +21,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideChar(ImageRgb image, char character, int x, int y) {
+  public void hideChar(ImageRgb image, char character, int x, int y) {
     int width = image.width();
     int bit = character;
     for (int j = 0; j < 8; j += 3) {
@@ -39,8 +43,7 @@ public class Stenography {
     }
   }
 
-  private static void hideCharInComponent(ImageRgb image, char character, int x, int y,
-      String component) {
+  private void hideCharInComponent(ImageRgb image, char character, int x, int y, String component) {
     int width = image.width();
     int bit = character;
     for (int j = 0; j < 8; j++) {
@@ -75,7 +78,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentRed(ImageRgb image, char character, int x, int y) {
+  public void hideCharInComponentRed(ImageRgb image, char character, int x, int y) {
     hideCharInComponent(image, character, x, y, RED);
   }
 
@@ -87,7 +90,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentGreen(ImageRgb image, char character, int x, int y) {
+  public void hideCharInComponentGreen(ImageRgb image, char character, int x, int y) {
     hideCharInComponent(image, character, x, y, GREEN);
   }
 
@@ -99,8 +102,70 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentBlue(ImageRgb image, char character, int x, int y) {
+  public void hideCharInComponentBlue(ImageRgb image, char character, int x, int y) {
     hideCharInComponent(image, character, x, y, BLUE);
+  }
+
+  private void hideCharInComponentDistributed(ImageRgb image, char character,
+      List<Coordinate<Integer, Integer>> coordinates, String component) {
+    int bit = character;
+    chekList(coordinates);
+    for (Coordinate<Integer, Integer> coord : coordinates) {
+      int bitFinal = bit & Conts.MASK;
+      switch (component) {
+        case RED:
+          image.hideRed(coord.getX(), coord.getY(), bitFinal);
+          break;
+        case GREEN:
+          image.hideGreen(coord.getX(), coord.getY(), bitFinal);
+          break;
+        case BLUE:
+          image.hideBlue(coord.getX(), coord.getY(), bitFinal);
+          break;
+        default:
+          break;
+      }
+      bit >>= Conts.OFFSET_1;
+    }
+  }
+
+  /**
+   * Embed secret information/TEXT into a "cover image" in the red component.
+   * 
+   * @param image image where hide information.
+   * @param character character to hide.
+   * @param x coordinate x.
+   * @param y coordinate y.
+   */
+  public void hideCharInComponentDistributedRed(ImageRgb image, char character,
+      List<Coordinate<Integer, Integer>> coordinates) {
+    hideCharInComponentDistributed(image, character, coordinates, RED);
+  }
+
+  /**
+   * Embed secret information/TEXT into a "cover image" in the green component.
+   * 
+   * @param image image where hide information.
+   * @param character character to hide.
+   * @param x coordinate x.
+   * @param y coordinate y.
+   */
+  public void hideCharInComponentDistributedGreen(ImageRgb image, char character,
+      List<Coordinate<Integer, Integer>> coordinates) {
+    hideCharInComponentDistributed(image, character, coordinates, GREEN);
+  }
+
+  /**
+   * Embed secret information/TEXT into a "cover image" in the blue component.
+   * 
+   * @param image image where hide information.
+   * @param character character to hide.
+   * @param x coordinate x.
+   * @param y coordinate y.
+   */
+  public void hideCharInComponentDistributedBlue(ImageRgb image, char character,
+      List<Coordinate<Integer, Integer>> coordinates) {
+    hideCharInComponentDistributed(image, character, coordinates, BLUE);
   }
 
   /**
@@ -111,7 +176,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractChar(ImageRgb image, int x, int y) {
+  public char extractChar(ImageRgb image, int x, int y) {
     int width = image.width();
     String bits = "";
     for (int j = 0; j < 8; j += 3) {
@@ -136,11 +201,9 @@ public class Stenography {
     return r;
   }
 
-  private static char extractCharFromComponent(ImageRgb image, int x, int y, String component) {
+  private char extractCharFromComponent(ImageRgb image, int x, int y, String component) {
     int width = image.width();
-    // int bit = 0;
     String bits = "";
-    // 8 digits form a character
     for (int j = 0; j < 8; j++) {
       if (x > width) {
         x = 0;
@@ -166,8 +229,7 @@ public class Stenography {
     for (int i = bits.length() - 1; i >= 0; i--) {
       ret = ret + bits.charAt(i);
     }
-    char r = (char) Integer.parseInt(ret, 2);
-    return r;
+    return (char) Integer.parseInt(ret, 2);
   }
 
   /**
@@ -178,7 +240,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentRed(ImageRgb image, int x, int y) {
+  public char extractCharFromComponentRed(ImageRgb image, int x, int y) {
     return extractCharFromComponent(image, x, y, RED);
   }
 
@@ -190,7 +252,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentGreen(ImageRgb image, int x, int y) {
+  public char extractCharFromComponentGreen(ImageRgb image, int x, int y) {
     return extractCharFromComponent(image, x, y, GREEN);
   }
 
@@ -202,8 +264,80 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentBlue(ImageRgb image, int x, int y) {
+  public char extractCharFromComponentBlue(ImageRgb image, int x, int y) {
     return extractCharFromComponent(image, x, y, BLUE);
+  }
+
+  private char extractCharFromComponentDistributed(ImageRgb image,
+      List<Coordinate<Integer, Integer>> coordinates, String component) {
+    String bits = "";
+    chekList(coordinates);
+    for (Coordinate<Integer, Integer> coord : coordinates) {
+      PixelRgb pixel = image.getPixelRgb(coord.getX(), coord.getY());
+      switch (component) {
+        case RED:
+          bits += pixel.extractRed();
+          break;
+        case GREEN:
+          bits += pixel.extractGreen();
+          break;
+        case BLUE:
+          bits += pixel.extractBlue();
+          break;
+        default:
+          break;
+      }
+    }
+    String ret = new String();
+    for (int i = bits.length() - 1; i >= 0; i--) {
+      ret = ret + bits.charAt(i);
+    }
+    return (char) Integer.parseInt(ret, 2);
+  }
+
+  /**
+   * Extract secret information/Text from a "cover image" in the red component.
+   * 
+   * @param image image from extract information.
+   * @param x coordinate x.
+   * @param y coordinate y.
+   * @return character extracted.
+   */
+  public char extractCharFromComponentDistributedRed(ImageRgb image,
+      List<Coordinate<Integer, Integer>> coordinates) {
+    return extractCharFromComponentDistributed(image, coordinates, RED);
+  }
+
+  /**
+   * Extract secret information/Text from a "cover image" in the green component.
+   * 
+   * @param image image from extract information.
+   * @param x coordinate x.
+   * @param y coordinate y.
+   * @return character extracted.
+   */
+  public char extractCharFromComponentDistributedGreen(ImageRgb image,
+      List<Coordinate<Integer, Integer>> coordinates) {
+    return extractCharFromComponentDistributed(image, coordinates, GREEN);
+  }
+
+  /**
+   * Extract secret information/Text from a "cover image" in the blue component.
+   * 
+   * @param image image from extract information.
+   * @param x coordinate x.
+   * @param y coordinate y.
+   * @return character extracted.
+   */
+  public char extractCharFromComponentDistributedBlue(ImageRgb image,
+      List<Coordinate<Integer, Integer>> coordinates) {
+    return extractCharFromComponentDistributed(image, coordinates, BLUE);
+  }
+
+  private void chekList(List<Coordinate<Integer, Integer>> coordinates) {
+    if (coordinates.size() != 8) {
+      throw new IncorrectSizeException();
+    }
   }
 
 }

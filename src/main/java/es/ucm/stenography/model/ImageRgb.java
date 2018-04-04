@@ -36,7 +36,7 @@ public class ImageRgb {
    * @return height of the image.
    */
   public int height() {
-    return (image != null) ? image.getHeight() : 0;
+    return (image != null) ? image.getHeight() : -1;
   }
 
   /**
@@ -45,7 +45,7 @@ public class ImageRgb {
    * @return width of the image.
    */
   public int width() {
-    return (image != null) ? image.getWidth() : 0;
+    return (image != null) ? image.getWidth() : -1;
   }
 
   /**
