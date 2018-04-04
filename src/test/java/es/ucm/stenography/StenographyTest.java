@@ -24,11 +24,14 @@ public class StenographyTest {
   private ImageRgb image;
   private char insert;
   private List<Coordinate<Integer, Integer>> coordinates;
+  private Stenography stenography;
 
   @Before
   public void setUp() throws Exception {
     insert = (char) Math.floor(Math.random() * (32 - 126 + 1) + 126);
     image = new ImageRgb(IMAGE_NAME);
+
+    stenography = new Stenography();
 
     coordinates = new ArrayList<>();
     int i = 0;
@@ -51,64 +54,64 @@ public class StenographyTest {
 
   @Test
   public void rgbTest() throws Exception {
-    Stenography.hideChar(image, insert, 0, 0);
+    stenography.hideChar(image, insert, 0, 0);
     ImageIO.write(image.getImage(), BMP_TYPE, new File(IMAGE_MODIFIED));
     ImageRgb imageModified = new ImageRgb(IMAGE_MODIFIED);
-    char extract = Stenography.extractChar(imageModified, 0, 0);
+    char extract = stenography.extractChar(imageModified, 0, 0);
     Assert.assertEquals(insert, extract);
   }
 
   @Test
   public void redTest() throws Exception {
-    Stenography.hideCharInComponentRed(image, insert, 0, 0);
+    stenography.hideCharInComponentRed(image, insert, 0, 0);
     ImageIO.write(image.getImage(), BMP_TYPE, new File(IMAGE_MODIFIED));
     ImageRgb imageModified = new ImageRgb(IMAGE_MODIFIED);
-    char extract = Stenography.extractCharFromComponentRed(imageModified, 0, 0);
+    char extract = stenography.extractCharFromComponentRed(imageModified, 0, 0);
     Assert.assertEquals(insert, extract);
   }
 
   @Test
   public void greenTest() throws Exception {
-    Stenography.hideCharInComponentGreen(image, insert, 0, 0);
+    stenography.hideCharInComponentGreen(image, insert, 0, 0);
     ImageIO.write(image.getImage(), BMP_TYPE, new File(IMAGE_MODIFIED));
     ImageRgb imageModified = new ImageRgb(IMAGE_MODIFIED);
-    char extract = Stenography.extractCharFromComponentGreen(imageModified, 0, 0);
+    char extract = stenography.extractCharFromComponentGreen(imageModified, 0, 0);
     Assert.assertEquals(insert, extract);
   }
 
   @Test
   public void blueTest() throws Exception {
-    Stenography.hideCharInComponentBlue(image, insert, 0, 0);
+    stenography.hideCharInComponentBlue(image, insert, 0, 0);
     ImageIO.write(image.getImage(), BMP_TYPE, new File(IMAGE_MODIFIED));
     ImageRgb imageModified = new ImageRgb(IMAGE_MODIFIED);
-    char extract = Stenography.extractCharFromComponentBlue(imageModified, 0, 0);
+    char extract = stenography.extractCharFromComponentBlue(imageModified, 0, 0);
     Assert.assertEquals(insert, extract);
   }
 
   @Test
   public void redDistributedTest() throws Exception {
-    Stenography.hideCharInComponentDistributedRed(image, insert, coordinates);
+    stenography.hideCharInComponentDistributedRed(image, insert, coordinates);
     ImageIO.write(image.getImage(), BMP_TYPE, new File(IMAGE_MODIFIED));
     ImageRgb imageModified = new ImageRgb(IMAGE_MODIFIED);
-    char extract = Stenography.extractCharFromComponentDistributedRed(imageModified, coordinates);
+    char extract = stenography.extractCharFromComponentDistributedRed(imageModified, coordinates);
     Assert.assertEquals(insert, extract);
   }
 
   @Test
   public void greenDistributedTest() throws Exception {
-    Stenography.hideCharInComponentDistributedGreen(image, insert, coordinates);
+    stenography.hideCharInComponentDistributedGreen(image, insert, coordinates);
     ImageIO.write(image.getImage(), BMP_TYPE, new File(IMAGE_MODIFIED));
     ImageRgb imageModified = new ImageRgb(IMAGE_MODIFIED);
-    char extract = Stenography.extractCharFromComponentDistributedGreen(imageModified, coordinates);
+    char extract = stenography.extractCharFromComponentDistributedGreen(imageModified, coordinates);
     Assert.assertEquals(insert, extract);
   }
 
   @Test
   public void blueDistributedTest() throws Exception {
-    Stenography.hideCharInComponentDistributedBlue(image, insert, coordinates);
+    stenography.hideCharInComponentDistributedBlue(image, insert, coordinates);
     ImageIO.write(image.getImage(), BMP_TYPE, new File(IMAGE_MODIFIED));
     ImageRgb imageModified = new ImageRgb(IMAGE_MODIFIED);
-    char extract = Stenography.extractCharFromComponentDistributedBlue(imageModified, coordinates);
+    char extract = stenography.extractCharFromComponentDistributedBlue(imageModified, coordinates);
     Assert.assertEquals(insert, extract);
   }
 
@@ -116,7 +119,7 @@ public class StenographyTest {
   public void redDistributedErrorTest() {
     try {
       coordinates.add(new Coordinate<Integer, Integer>(0, 0));
-      Stenography.hideCharInComponentDistributedRed(image, insert, coordinates);
+      stenography.hideCharInComponentDistributedRed(image, insert, coordinates);
     } catch (Exception e) {
       Assert.assertEquals(e.getClass(), IncorrectSizeException.class);
       Assert.assertEquals(e.getMessage(), new IncorrectSizeException().getMessage());
@@ -127,7 +130,7 @@ public class StenographyTest {
   public void greenDistributedErrorTest() throws Exception {
     try {
       coordinates.add(new Coordinate<Integer, Integer>(0, 0));
-      Stenography.hideCharInComponentDistributedGreen(image, insert, coordinates);
+      stenography.hideCharInComponentDistributedGreen(image, insert, coordinates);
     } catch (Exception e) {
       Assert.assertEquals(e.getClass(), IncorrectSizeException.class);
       Assert.assertEquals(e.getMessage(), new IncorrectSizeException().getMessage());
@@ -138,7 +141,7 @@ public class StenographyTest {
   public void blueDistributedErrorTest() throws Exception {
     try {
       coordinates.add(new Coordinate<Integer, Integer>(0, 0));
-      Stenography.hideCharInComponentDistributedBlue(image, insert, coordinates);
+      stenography.hideCharInComponentDistributedBlue(image, insert, coordinates);
     } catch (Exception e) {
       Assert.assertEquals(e.getClass(), IncorrectSizeException.class);
       Assert.assertEquals(e.getMessage(), new IncorrectSizeException().getMessage());

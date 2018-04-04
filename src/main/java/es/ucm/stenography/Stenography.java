@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Stenography {
 
-  private static final String BLUE = "BLUE";
-  private static final String GREEN = "GREEN";
-  private static final String RED = "RED";
+  private final String BLUE = "BLUE";
+  private final String GREEN = "GREEN";
+  private final String RED = "RED";
 
   /**
    * Embed secret information/TEXT into a "cover image"
@@ -21,7 +21,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideChar(ImageRgb image, char character, int x, int y) {
+  public void hideChar(ImageRgb image, char character, int x, int y) {
     int width = image.width();
     int bit = character;
     for (int j = 0; j < 8; j += 3) {
@@ -43,8 +43,7 @@ public class Stenography {
     }
   }
 
-  private static void hideCharInComponent(ImageRgb image, char character, int x, int y,
-      String component) {
+  private void hideCharInComponent(ImageRgb image, char character, int x, int y, String component) {
     int width = image.width();
     int bit = character;
     for (int j = 0; j < 8; j++) {
@@ -79,7 +78,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentRed(ImageRgb image, char character, int x, int y) {
+  public void hideCharInComponentRed(ImageRgb image, char character, int x, int y) {
     hideCharInComponent(image, character, x, y, RED);
   }
 
@@ -91,7 +90,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentGreen(ImageRgb image, char character, int x, int y) {
+  public void hideCharInComponentGreen(ImageRgb image, char character, int x, int y) {
     hideCharInComponent(image, character, x, y, GREEN);
   }
 
@@ -103,11 +102,11 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentBlue(ImageRgb image, char character, int x, int y) {
+  public void hideCharInComponentBlue(ImageRgb image, char character, int x, int y) {
     hideCharInComponent(image, character, x, y, BLUE);
   }
 
-  private static void hideCharInComponentDistributed(ImageRgb image, char character,
+  private void hideCharInComponentDistributed(ImageRgb image, char character,
       List<Coordinate<Integer, Integer>> coordinates, String component) {
     int bit = character;
     chekList(coordinates);
@@ -138,7 +137,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentDistributedRed(ImageRgb image, char character,
+  public void hideCharInComponentDistributedRed(ImageRgb image, char character,
       List<Coordinate<Integer, Integer>> coordinates) {
     hideCharInComponentDistributed(image, character, coordinates, RED);
   }
@@ -151,7 +150,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentDistributedGreen(ImageRgb image, char character,
+  public void hideCharInComponentDistributedGreen(ImageRgb image, char character,
       List<Coordinate<Integer, Integer>> coordinates) {
     hideCharInComponentDistributed(image, character, coordinates, GREEN);
   }
@@ -164,7 +163,7 @@ public class Stenography {
    * @param x coordinate x.
    * @param y coordinate y.
    */
-  public static void hideCharInComponentDistributedBlue(ImageRgb image, char character,
+  public void hideCharInComponentDistributedBlue(ImageRgb image, char character,
       List<Coordinate<Integer, Integer>> coordinates) {
     hideCharInComponentDistributed(image, character, coordinates, BLUE);
   }
@@ -177,7 +176,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractChar(ImageRgb image, int x, int y) {
+  public char extractChar(ImageRgb image, int x, int y) {
     int width = image.width();
     String bits = "";
     for (int j = 0; j < 8; j += 3) {
@@ -202,7 +201,7 @@ public class Stenography {
     return r;
   }
 
-  private static char extractCharFromComponent(ImageRgb image, int x, int y, String component) {
+  private char extractCharFromComponent(ImageRgb image, int x, int y, String component) {
     int width = image.width();
     String bits = "";
     for (int j = 0; j < 8; j++) {
@@ -230,8 +229,7 @@ public class Stenography {
     for (int i = bits.length() - 1; i >= 0; i--) {
       ret = ret + bits.charAt(i);
     }
-    char r = (char) Integer.parseInt(ret, 2);
-    return r;
+    return (char) Integer.parseInt(ret, 2);
   }
 
   /**
@@ -242,7 +240,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentRed(ImageRgb image, int x, int y) {
+  public char extractCharFromComponentRed(ImageRgb image, int x, int y) {
     return extractCharFromComponent(image, x, y, RED);
   }
 
@@ -254,7 +252,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentGreen(ImageRgb image, int x, int y) {
+  public char extractCharFromComponentGreen(ImageRgb image, int x, int y) {
     return extractCharFromComponent(image, x, y, GREEN);
   }
 
@@ -266,11 +264,11 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentBlue(ImageRgb image, int x, int y) {
+  public char extractCharFromComponentBlue(ImageRgb image, int x, int y) {
     return extractCharFromComponent(image, x, y, BLUE);
   }
 
-  private static char extractCharFromComponentDistributed(ImageRgb image,
+  private char extractCharFromComponentDistributed(ImageRgb image,
       List<Coordinate<Integer, Integer>> coordinates, String component) {
     String bits = "";
     chekList(coordinates);
@@ -294,8 +292,7 @@ public class Stenography {
     for (int i = bits.length() - 1; i >= 0; i--) {
       ret = ret + bits.charAt(i);
     }
-    char r = (char) Integer.parseInt(ret, 2);
-    return r;
+    return (char) Integer.parseInt(ret, 2);
   }
 
   /**
@@ -306,7 +303,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentDistributedRed(ImageRgb image,
+  public char extractCharFromComponentDistributedRed(ImageRgb image,
       List<Coordinate<Integer, Integer>> coordinates) {
     return extractCharFromComponentDistributed(image, coordinates, RED);
   }
@@ -319,7 +316,7 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentDistributedGreen(ImageRgb image,
+  public char extractCharFromComponentDistributedGreen(ImageRgb image,
       List<Coordinate<Integer, Integer>> coordinates) {
     return extractCharFromComponentDistributed(image, coordinates, GREEN);
   }
@@ -332,12 +329,12 @@ public class Stenography {
    * @param y coordinate y.
    * @return character extracted.
    */
-  public static char extractCharFromComponentDistributedBlue(ImageRgb image,
+  public char extractCharFromComponentDistributedBlue(ImageRgb image,
       List<Coordinate<Integer, Integer>> coordinates) {
     return extractCharFromComponentDistributed(image, coordinates, BLUE);
   }
 
-  private static void chekList(List<Coordinate<Integer, Integer>> coordinates) {
+  private void chekList(List<Coordinate<Integer, Integer>> coordinates) {
     if (coordinates.size() != 8) {
       throw new IncorrectSizeException();
     }
