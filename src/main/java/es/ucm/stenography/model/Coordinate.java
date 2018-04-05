@@ -5,9 +5,21 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Coordinate<X, Y> {
+public class Coordinate<X, Y> implements Comparable<Coordinate>{
 
   private X x;
   private Y y;
 
+  @Override
+  public int compareTo(Coordinate coordinate) {
+    final int BEFORE = -1;
+    final int EQUAL = 0;
+    final int AFTER = 1;
+
+    if(equals(coordinate))
+      return EQUAL;
+
+
+    return BEFORE;
+  }
 }
