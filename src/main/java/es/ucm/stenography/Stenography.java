@@ -25,9 +25,9 @@ public class Stenography {
     int width = image.width();
     int bit = character;
     for (int j = 0; j < 8; j += 3) {
-      int bitRed = bit & Conts.MASK;
-      int bitGreen = bit >> Conts.OFFSET_1 & Conts.MASK;
-      int bitBlue = bit >> Conts.OFFSET_2 & Conts.MASK;
+      int bitRed = bit & Constants.MASK;
+      int bitGreen = bit >> Constants.OFFSET_1 & Constants.MASK;
+      int bitBlue = bit >> Constants.OFFSET_2 & Constants.MASK;
       if (x > width) {
         x = 0;
         y++;
@@ -39,7 +39,7 @@ public class Stenography {
         image.hide(x, y, bitRed, bitGreen, bitBlue);
       }
       x++;
-      bit >>= Conts.OFFSET_3;
+      bit >>= Constants.OFFSET_3;
     }
   }
 
@@ -47,7 +47,7 @@ public class Stenography {
     int width = image.width();
     int bit = character;
     for (int j = 0; j < 8; j++) {
-      int bitFinal = bit & Conts.MASK;
+      int bitFinal = bit & Constants.MASK;
       if (x > width) {
         x = 0;
         y++;
@@ -66,7 +66,7 @@ public class Stenography {
           break;
       }
       x++;
-      bit >>= Conts.OFFSET_1;
+      bit >>= Constants.OFFSET_1;
     }
   }
 
@@ -111,7 +111,7 @@ public class Stenography {
     int bit = character;
     chekList(coordinates);
     for (Coordinate<Integer, Integer> coord : coordinates) {
-      int bitFinal = bit & Conts.MASK;
+      int bitFinal = bit & Constants.MASK;
       switch (component) {
         case RED:
           image.hideRed(coord.getX(), coord.getY(), bitFinal);
@@ -125,7 +125,7 @@ public class Stenography {
         default:
           break;
       }
-      bit >>= Conts.OFFSET_1;
+      bit >>= Constants.OFFSET_1;
     }
   }
 
