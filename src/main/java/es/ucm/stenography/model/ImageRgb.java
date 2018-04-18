@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import es.ucm.stenography.Conts;
+import es.ucm.stenography.Constants;
 
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
@@ -61,8 +61,8 @@ public class ImageRgb {
     }
 
     int pixel = (image != null) ? image.getRGB(x, y) : 0;
-    return new PixelRgb((pixel >> Conts.OFFSET_16) & Conts.HEX_FF,
-        (pixel >> Conts.OFFSET_8) & Conts.HEX_FF, pixel & Conts.HEX_FF);
+    return new PixelRgb((pixel >> Constants.OFFSET_16) & Constants.HEX_FF,
+        (pixel >> Constants.OFFSET_8) & Constants.HEX_FF, pixel & Constants.HEX_FF);
   }
 
   /**
@@ -189,9 +189,9 @@ public class ImageRgb {
     try {
       in.read(b);
       resul = b[0] & 0xFF;
-      resul = resul + ((b[1] & Conts.HEX_FF) << Conts.OFFSET_8);
-      resul = resul + ((b[2] & Conts.HEX_FF) << Conts.OFFSET_16);
-      resul = resul + ((b[3] & Conts.HEX_FF) << Conts.OFFSET_24);
+      resul = resul + ((b[1] & Constants.HEX_FF) << Constants.OFFSET_8);
+      resul = resul + ((b[2] & Constants.HEX_FF) << Constants.OFFSET_16);
+      resul = resul + ((b[3] & Constants.HEX_FF) << Constants.OFFSET_24);
     } catch (Exception e) {
       LOGGER.error("Error read 32-bits", e);
       throw e;
@@ -214,8 +214,8 @@ public class ImageRgb {
     try {
       in.read(b);
       result = b[0] & 0xFF;
-      result = result + ((b[1] & Conts.HEX_FF) << Conts.OFFSET_8);
-      result = result + ((b[2] & Conts.HEX_FF) << Conts.OFFSET_16);
+      result = result + ((b[1] & Constants.HEX_FF) << Constants.OFFSET_8);
+      result = result + ((b[2] & Constants.HEX_FF) << Constants.OFFSET_16);
     } catch (Exception e) {
       LOGGER.error("Error read 24-bits", e);
       throw e;
