@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Setter;
 
-import es.ucm.stenography.Conts;
+import es.ucm.stenography.Constants;
 
 @AllArgsConstructor
 @Data
@@ -24,7 +24,7 @@ public class PixelRgb {
    * @return pixel.
    */
   public int getPixel() {
-    return (red << Conts.OFFSET_16) + (green << Conts.OFFSET_8) + blue;
+    return (red << Constants.OFFSET_16) + (green << Constants.OFFSET_8) + blue;
   }
 
   /**
@@ -34,9 +34,9 @@ public class PixelRgb {
    */
   public void hideRed(int bit) {
     if (bit == 1) {
-      red |= Conts.MASK_ONE;
+      red |= Constants.MASK_ONE;
     } else {
-      red &= Conts.MASK_ZERO;
+      red &= Constants.MASK_ZERO;
     }
   }
 
@@ -47,9 +47,9 @@ public class PixelRgb {
    */
   public void hideGreen(int bit) {
     if (bit == 1) {
-      green |= Conts.MASK_ONE;
+      green |= Constants.MASK_ONE;
     } else {
-      green &= Conts.MASK_ZERO;
+      green &= Constants.MASK_ZERO;
     }
   }
 
@@ -60,9 +60,9 @@ public class PixelRgb {
    */
   public void hideBlue(int bit) {
     if (bit == 1) {
-      blue |= Conts.MASK_ONE;
+      blue |= Constants.MASK_ONE;
     } else {
-      blue &= Conts.MASK_ZERO;
+      blue &= Constants.MASK_ZERO;
     }
   }
 
@@ -85,7 +85,7 @@ public class PixelRgb {
    * @return bit extracted.
    */
   public int extractRed() {
-    return red & Conts.MASK;
+    return red & Constants.MASK;
   }
 
   /**
@@ -94,7 +94,7 @@ public class PixelRgb {
    * @return bit extracted.
    */
   public int extractGreen() {
-    return green & Conts.MASK;
+    return green & Constants.MASK;
   }
 
   /**
@@ -103,7 +103,7 @@ public class PixelRgb {
    * @return bit extracted.
    */
   public int extractBlue() {
-    return blue & Conts.MASK;
+    return blue & Constants.MASK;
   }
 
   /**

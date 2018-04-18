@@ -24,7 +24,7 @@ public class GeneratePositions implements IGeneratePositions {
                 bits.set(index);
             }
             ++index;
-            value = value >>> 1;
+            value = value >>> Constants.OFFSET_1;
         }
         return bits;
     }
@@ -37,7 +37,7 @@ public class GeneratePositions implements IGeneratePositions {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i + 1 < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i + 1), 16));
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), Constants.OFFSET_16) << Constants.OFFSET_4) + Character.digit(s.charAt(i + Constants.OFFSET_1), Constants.OFFSET_16));
         }
         return data;
     }
@@ -47,12 +47,12 @@ public class GeneratePositions implements IGeneratePositions {
     }
 
     private int PreviousPowerOf2(int x) {
-        x = x | (x >> 1);
-        x = x | (x >> 2);
-        x = x | (x >> 4);
-        x = x | (x >> 8);
-        x = x | (x >> 16);
-        return x - (x >> 1);
+        x = x | (x >> Constants.OFFSET_1);
+        x = x | (x >> Constants.OFFSET_2);
+        x = x | (x >> Constants.OFFSET_4);
+        x = x | (x >> Constants.OFFSET_8);
+        x = x | (x >> Constants.OFFSET_16);
+        return x - (x >> Constants.OFFSET_1);
     }
 
     private String EncryptSHA512(String target) {
@@ -101,7 +101,7 @@ public class GeneratePositions implements IGeneratePositions {
                 y = 0;
             }
 
-            number = number << 1 | (hashByte.get(i) ? 1 : 0);
+            number = number << Constants.OFFSET_1 | (hashByte.get(i) ? 1 : 0);
         }
 
         return positions;
