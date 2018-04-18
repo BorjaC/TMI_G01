@@ -61,7 +61,7 @@ public class GeneratePositions implements IGeneratePositions {
             sh.update(target.getBytes());
             StringBuilder sb = new StringBuilder();
             for (byte b : sh.digest())
-                sb.append(Integer.toHexString(0xff & b));
+                sb.append(Integer.toHexString(Constants.OFFSET_255 & b));
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
