@@ -5,7 +5,7 @@ import es.ucm.stenography.model.Coordinate;
 import es.ucm.stenography.model.ImageRgb;
 import es.ucm.stenography.model.PixelRgb;
 
-import java.util.List;
+import java.util.TreeSet;
 
 public class Stenography {
 
@@ -107,7 +107,7 @@ public class Stenography {
   }
 
   private void hideCharInComponentDistributed(ImageRgb image, char character,
-      List<Coordinate<Integer, Integer>> coordinates, String component) {
+      TreeSet<Coordinate> coordinates, String component) {
     int bit = character;
     chekList(coordinates);
     for (Coordinate<Integer, Integer> coord : coordinates) {
@@ -138,7 +138,7 @@ public class Stenography {
    * @param y coordinate y.
    */
   public void hideCharInComponentDistributedRed(ImageRgb image, char character,
-      List<Coordinate<Integer, Integer>> coordinates) {
+      TreeSet<Coordinate> coordinates) {
     hideCharInComponentDistributed(image, character, coordinates, RED);
   }
 
@@ -151,7 +151,7 @@ public class Stenography {
    * @param y coordinate y.
    */
   public void hideCharInComponentDistributedGreen(ImageRgb image, char character,
-      List<Coordinate<Integer, Integer>> coordinates) {
+      TreeSet<Coordinate> coordinates) {
     hideCharInComponentDistributed(image, character, coordinates, GREEN);
   }
 
@@ -164,7 +164,7 @@ public class Stenography {
    * @param y coordinate y.
    */
   public void hideCharInComponentDistributedBlue(ImageRgb image, char character,
-      List<Coordinate<Integer, Integer>> coordinates) {
+      TreeSet<Coordinate> coordinates) {
     hideCharInComponentDistributed(image, character, coordinates, BLUE);
   }
 
@@ -268,8 +268,8 @@ public class Stenography {
     return extractCharFromComponent(image, x, y, BLUE);
   }
 
-  private char extractCharFromComponentDistributed(ImageRgb image,
-      List<Coordinate<Integer, Integer>> coordinates, String component) {
+  private char extractCharFromComponentDistributed(ImageRgb image, TreeSet<Coordinate> coordinates,
+      String component) {
     String bits = "";
     chekList(coordinates);
     for (Coordinate<Integer, Integer> coord : coordinates) {
@@ -304,7 +304,7 @@ public class Stenography {
    * @return character extracted.
    */
   public char extractCharFromComponentDistributedRed(ImageRgb image,
-      List<Coordinate<Integer, Integer>> coordinates) {
+      TreeSet<Coordinate> coordinates) {
     return extractCharFromComponentDistributed(image, coordinates, RED);
   }
 
@@ -317,7 +317,7 @@ public class Stenography {
    * @return character extracted.
    */
   public char extractCharFromComponentDistributedGreen(ImageRgb image,
-      List<Coordinate<Integer, Integer>> coordinates) {
+      TreeSet<Coordinate> coordinates) {
     return extractCharFromComponentDistributed(image, coordinates, GREEN);
   }
 
@@ -330,11 +330,11 @@ public class Stenography {
    * @return character extracted.
    */
   public char extractCharFromComponentDistributedBlue(ImageRgb image,
-      List<Coordinate<Integer, Integer>> coordinates) {
+      TreeSet<Coordinate> coordinates) {
     return extractCharFromComponentDistributed(image, coordinates, BLUE);
   }
 
-  private void chekList(List<Coordinate<Integer, Integer>> coordinates) {
+  private void chekList(TreeSet<Coordinate> coordinates) {
     if (coordinates.size() != 8) {
       throw new IncorrectSizeException();
     }
