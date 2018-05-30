@@ -10,8 +10,7 @@ import es.ucm.stenography.model.Coordinate;
 import es.ucm.stenography.model.ImageRgb;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 
@@ -23,7 +22,7 @@ public class StenographyTest {
 
   private ImageRgb image;
   private char insert;
-  private List<Coordinate<Integer, Integer>> coordinates;
+  private TreeSet<Coordinate> coordinates;
   private Stenography stenography;
 
   @Before
@@ -33,7 +32,7 @@ public class StenographyTest {
 
     stenography = new Stenography();
 
-    coordinates = new ArrayList<>();
+    coordinates = new TreeSet<>();
     int i = 0;
     while (i < 8) {
       int x = (int) Math.floor(Math.random() * image.width());
